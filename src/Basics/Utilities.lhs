@@ -11,8 +11,8 @@
 
 > module Basics.Utilities where
 >
-> import List	 ( elemIndex )
-> import Maybe   ( fromJust )
+> import Data.List	 ( elemIndex )
+> import Data.Maybe   ( fromJust )
 >
 > fst3                          :: (a,b,c) -> a
 > fst3 (x,_,_)                  = x

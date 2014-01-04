@@ -21,8 +21,8 @@ import Point2    ( Point2 (Point2), P2, xcoord,
 		   belowOrRight, aboveOrLeft, isLeftTurn, xcoord, ycoord )
 import Line      ( Line (Segment), Line2, intersect, horizontal )
 import Polygon   ( Polygon (..), Polygon2, vertices, angles, edges )
-import Array     ( listArray, (!), Array, bounds )
-import Maybe     ( fromJust, isJust )
+import Data.Array     ( listArray, (!), Array, bounds )
+import Data.Maybe     ( fromJust, isJust )
 import qualified Basics.FiniteMap as FM
 import Basics.FiniteMap ( lookup, delete, insert, insertManyC, fromList, empty )
 import qualified StatusStructureSpec as SS

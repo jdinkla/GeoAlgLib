@@ -13,7 +13,8 @@
 > import Applications.NearestPoint
 > import RBox	    ( readPoints2 )
 > import MetaPost
-> import System	    ( ExitCode (ExitFailure), exitWith, getArgs )
+> import System.Environment ( getArgs )
+> import System.Exit ( ExitCode (ExitFailure), exitWith )
 > import Line	    ( Line ( Segment ) )
 > import Point2	    ( Point (mapP), Point2 (..), P2 )
 > import Basics.DoubleEps

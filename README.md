@@ -1,0 +1,1 @@
+This repository contains code from http://www.dinkla.net/en/programming/haskell-cglib.html with minor updates to get it compile under recent ghc / cabal

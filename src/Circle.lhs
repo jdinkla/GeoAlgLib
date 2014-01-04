@@ -28,7 +28,7 @@ type Circle3 a		      = Circle Point3 a
 nach \cite[1.04]{cga-faq}
 
 \begin{code}
-circleFrom3Points             :: Fractional a => P2 a -> P2 a -> P2 a -> Maybe (Circle2 a)
+circleFrom3Points             :: (Fractional a, Eq a) => P2 a -> P2 a -> P2 a -> Maybe (Circle2 a)
 circleFrom3Points (Point2 (ax,ay)) (Point2 (bx,by)) (Point2 (cx,cy))
   | g==0                      = Nothing
   | otherwise                 = Just (Circle (Point2 (px, py)) r2)

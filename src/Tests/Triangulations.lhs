@@ -21,8 +21,9 @@
 > import Point2		       ( Point2 (..), rotateOrg )
 > import Polygon	       ( Polygon, vertices, mapPolygon )
 > import RPG		       ( readPolygon )
-> import System		       ( ExitCode (ExitFailure), exitWith, getArgs )
-> import Maybe		       ( fromJust )
+> import System.Environment ( getArgs )
+> import System.Exit           ( ExitCode (ExitFailure), exitWith )
+> import Data.Maybe            ( fromJust )
 > import MetaPost
 > import Triangle	       ( Triangle2 )
 > import Polygon	       ( Polygon2 )
@@ -72,10 +73,10 @@
 > points sc ps cs
 >   = "%points\n" ++ pen 2 ++ showMP [Scaled sc] ps ++ "\n" ++ cs
 > 
-> polygon, polygon2 :: RealFloat a => Double -> Polygon2 a -> String -> String  
-> triangles, triangles2 :: RealFloat a => Double -> [Triangle2 a] -> String -> String
+> polygon, polygon2 :: (RealFloat a, Show a) => Double -> Polygon2 a -> String -> String  
+> triangles, triangles2 :: (RealFloat a, Show a) => Double -> [Triangle2 a] -> String -> String
 >
->
+> 
 > polygon sc p cs
 >   = "%polygon\n" ++ pen 0.5 ++ showMP [Scaled sc] p ++ "\n" ++ cs
 >

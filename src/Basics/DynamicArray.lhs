@@ -22,9 +22,9 @@
 > import Data.STRef ( STRef, newSTRef, readSTRef, writeSTRef )
 > import Data.Array.MArray ( MArray, newArray, readArray, writeArray,
 >             freeze, getBounds) 
-> import qualified Array (Array, array)
-> import Ix (Ix(range))
-> import Maybe (isJust, fromJust, catMaybes)
+> import qualified Data.Array (Array, array)
+> import Data.Ix (Ix(range))
+> import Data.Maybe (isJust, fromJust, catMaybes)
 > import Basics.Pretty (Doc, vcat)
 
 Wir benutzen ein Array, das bei Bedarf vergrößert wird \cite[K. 18.4]{cormen90:introduction}.
@@ -121,7 +121,7 @@ Wir speichern den aktuellen Index und die Größe des Arrays.
 >             if isJust v' then writeArray a i (Just v)
 >                          else return ()) xs
 >  
-> freeze :: Array s a -> ST s (Array.Array Int (Maybe a))
+> freeze :: Array s a -> ST s (Data.Array.Array Int (Maybe a))
 > freeze d@(Array da)
 >   = do (i, s, a) <- readSTRef da
 >        Data.Array.MArray.freeze a

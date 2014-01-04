@@ -7,7 +7,7 @@ aus \cite{king96:functional}.
 > import Data.Array.ST ( STArray )
 > import Data.Array.MArray ( MArray, newArray, readArray, writeArray,
 >             freeze, getBounds) 
-> import qualified Array (Array, array)
+> import qualified Data.Array (Array, array)
 > import Data.Ix (Ix (..))
 >
 > type Set s a = STArray s a Bool

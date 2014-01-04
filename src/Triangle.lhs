@@ -17,7 +17,7 @@ import Point  ( Point2, area2, orientation, Orientation (Collinear) )
 import Line   ( Line (Segment) )
 import Circle ( circleFrom3Points )
 import qualified Circle as C (Circle (center))
-import Maybe  ( fromJust )
+import Data.Maybe  ( fromJust )
 import Basics.Utilities ( Rel3 )
 \end{code}
 
@@ -33,13 +33,13 @@ type Triangle3 a	      = Triangle Point3 a
 vertices		      :: (Num a, Point p) => Triangle p a -> [p a]
 vertices (Triangle (p,q,r))   = [p,q,r]
 
-segments		      :: (Num a, Point p) => Triangle p a -> [Line p a]
+segments		      :: (Num a, Point p, Eq a) => Triangle p a -> [Line p a]
 segments (Triangle (p,q,r))   = [Segment p q, Segment q r, Segment r p]
 
-area			      :: Fractional a => Triangle Point2 a -> a
+area			      :: (Fractional a, Eq a) => Triangle Point2 a -> a
 area (Triangle (p,q,r))       = 0.5 * area2 p q r
 
-contains, containsBNV	      :: (Num a, Ord a) => Triangle Point2 a -> Point2 a -> Bool
+contains, containsBNV	      :: (Num a, Ord a, Eq a) => Triangle Point2 a -> Point2 a -> Bool
 contains tri@(Triangle (s,t,v)) p = containsBNV tri p || p==s || p==t || p==v
 
 containsBNV tri p             = checkBy test tri p
@@ -68,6 +68,6 @@ Punkte bestimmen. Dieses kann mit der Funktion |orientation| aus dem Modul |Line
 |center| ermittelt den Mittelpunkt des Umkreises eines Dreiecks.
 
 \begin{code}
-center			      :: Fractional a => Triangle2 a -> Point2 a
+center			      :: (Fractional a, Eq a) => Triangle2 a -> Point2 a
 center (Triangle (p, q, r))   = C.center (fromJust (circleFrom3Points p q r))
 \end{code}

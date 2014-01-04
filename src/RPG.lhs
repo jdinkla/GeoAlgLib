@@ -15,9 +15,9 @@
 > 
 > import Point   ( Point2 (..) )
 > import Polygon ( Polygon (..), Polygon2 )
-> import Array   ( listArray, (!) )
+> import Data.Array   ( listArray, (!) )
 > 
-> readPolygon		        :: (Read a, Num a) => String -> IO (Polygon2 a)
+> readPolygon		        :: (Read a, Num a, Eq a) => String -> IO (Polygon2 a)
 > readPolygon name		= do xs <- readFile name
 >				     let (_:ns:ys) = filter (not . isComment) (lines xs)
 >				     let n = (read ns) :: Int
@@ -25,7 +25,7 @@
 >				     let arr = listArray (1,n) (points ps)
 >				     return (PolygonCCW (map ((arr!) . read) is))
 > 
-> readPoints		        :: (Read a, Num a) => String -> IO [Point2 a]
+> readPoints		        :: (Read a, Num a, Eq a) => String -> IO [Point2 a]
 > readPoints name	        = do xs <- readFile name
 >				     let (_:ns:ys) = filter (not . isComment) (lines xs)
 >				     let n = read ns
@@ -37,7 +37,7 @@
 > isComment ('#':_)		= True
 > isComment _			= False
 > 
-> points			:: (Read a, Num a) => [String] -> [Point2 a]
+> points			:: (Read a, Num a, Eq a) => [String] -> [Point2 a]
 > points xs		        = map ((\ [x,y] -> Point2 (read x, read y)) . words) xs
 > 
 

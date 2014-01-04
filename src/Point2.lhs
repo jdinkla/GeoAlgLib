@@ -18,12 +18,12 @@ import Basics.Utilities ( minimumBy, maximumBy, OrderRel, Rel, extremaBy, Rel3 )
 
 \IndexS{Point2}
 \begin{code}
-newtype Num a => Point2 a     = Point2 (a,a) deriving Eq
+newtype (Num a, Eq a) => Point2 a     = Point2 (a,a) deriving Eq
 
 type Point2D		      = Point2 Double
 type P2 a		      = Point2 a
 
-instance (Show a, Num a) => Show (Point2 a) where
+instance (Show a, Num a, Eq a) => Show (Point2 a) where
     showsPrec _ (Point2 (x,y))  = shows (x,y)
 
 instance Point Point2 where
@@ -40,7 +40,7 @@ instance Point Point2 where
     (Point2 (x,y)) <-> (Point2 (u,v))  = Point2 (x-u,y-v)
     (Point2 (x,y)) <.> (Point2 (u,v))  = x*u + y*v
 
-instance Num a => Num (Point2  a) where
+instance (Num a, Eq a) => Num (Point2  a) where
     (+)			      = (<+>)
     (-)			      = (<->)
     negate		      = negateP
@@ -55,7 +55,7 @@ Das Kreuzprodukt für zweidimensonale Punkte stammt aus
 \cite[S. 19]{orourke94:cg}).
 
 \begin{code}
-cross2                        :: Num a => Point2 a -> Point2 a -> a
+cross2                        :: (Num a, Eq a) => Point2 a -> Point2 a -> a
 x `cross2` y		      = xcoord x*ycoord y - xcoord y*ycoord x
 \end{code}
 
@@ -65,7 +65,7 @@ x `cross2` y		      = xcoord x*ycoord y - xcoord y*ycoord x
 \end{eqnarray*}
 
 \begin{code}
-area2                         :: Num a => Point2 a -> Point2 a -> Point2 a -> a
+area2                         :: (Num a, Eq a) => Point2 a -> Point2 a -> Point2 a -> a
 area2 (Point2 (px,py)) (Point2 (qx,qy)) (Point2 (rx,ry))
                               = (px-qx) * (py-ry) - (py-qy) * (px-rx)
 \end{code}
@@ -118,7 +118,7 @@ rotate p o phi                = o + (rotateOrg (p-o) phi)
 rotateOrg                     :: (Floating a, Ord a) => P2 a -> a -> P2 a
 rotateOrg (Point2 (x,y)) phi  = Point2 (x*cos phi - y*sin phi, x*sin phi + y*cos phi)
 
-reflect                       :: Fractional a => P2 a -> P2 a -> P2 a -> P2 a
+reflect                       :: (Fractional a, Eq a) => P2 a -> P2 a -> P2 a -> P2 a
 reflect p q r                 = Point2 (xcoord q + xcoord p1*cos2 - ycoord p1*sin2, 
                                         ycoord q + xcoord p1*sin2 + ycoord p1*cos2)
   where p1                    = p <-> q 

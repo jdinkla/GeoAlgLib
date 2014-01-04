@@ -9,7 +9,7 @@
 module QEDSbasics (module QEDSbasics) where
 
 import Prelude hiding (flip)
-import List (nub) 
+import Data.List (nub) 
 import Basics.Topped (Topped (..))
 import Basics.Utilities (fst4, snd4, thd4, frt4, fst3, isSingleton)
 import qualified Basics.Pretty as Pr

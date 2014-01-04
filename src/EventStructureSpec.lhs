@@ -12,8 +12,8 @@
 \begin{code}
 module EventStructureSpec where
 
-import List (insertBy)
-import qualified List (delete)
+import Data.List (insertBy)
+import qualified Data.List (delete)
 import Basics.Sorting (sort)
 
 data Event t a                = Event { time :: t, event :: a } deriving Show
@@ -60,7 +60,7 @@ insertManyC                   :: Ord t => (a -> a -> a) -> ES t a -> [Event t a]
 insertManyC f                 = foldl (insertC f)
 
 delete                        :: Ord t => ES t a -> t -> ES t a
-delete (ES xs) t	          = ES (List.delete (Event t undefined) xs)
+delete (ES xs) t	          = ES (Data.List.delete (Event t undefined) xs)
 
 deleteMany		              :: Ord t => ES t a -> [t] -> ES t a
 deleteMany            	      = foldl delete

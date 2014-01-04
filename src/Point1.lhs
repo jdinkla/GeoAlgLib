@@ -38,7 +38,7 @@ instance Point Point1 where
     (Point1 x) <-> (Point1 y) = Point1 (x-y)
     (Point1 x) <.> (Point1 y) = x*y
 
-instance Num a                => Num (Point1 a) where
+instance (Num a, Eq a)        => Num (Point1 a) where
     (+)			      = (<+>)
     (-)			      = (<->)
     negate		      = negateP

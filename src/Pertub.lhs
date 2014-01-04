@@ -11,7 +11,7 @@
 > 
 > import Point2  ( Point2D, Point2 (..), rotateOrg, leftOrBelow, belowOrLeft, 
 >		   equalX, equalY, angle2 )
-> import List	 ( groupBy )
+> import Data.List	 ( groupBy )
 > import Basics.Utilities ( isSingleton )
 > import Basics.Sorting ( sortBy )
 

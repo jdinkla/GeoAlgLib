@@ -26,7 +26,7 @@ import Point2    ( Point2 (..), P2, Point (origin), isOn, isRightTurnOrOn,
 import Line      ( Line (..), fromPDL, distanceFromLine, intersect, doIntersect )
 import Basics.Utilities ( rotateL, rotateR, rotateTo, snd3, uncurry3, rotateToBy )
 import qualified Triangle
-import Array	 ( Array, listArray, (!) )
+import Data.Array	 ( Array, listArray, (!) )
 \end{code}
 
 \begin{code}
@@ -40,7 +40,7 @@ type Polygon3 a		      = Polygon Point3 a
 --polygon			      :: (Ord a, Num a) => [P2 a] -> Polygon p a
 --polygon			      = PolygonCW . deleteCollinear
 
-mapPolygon		      :: (Point p, Num a, Num b) => (p a -> p b) 
+mapPolygon		      :: (Point p, Num a, Num b, Eq a, Eq b) => (p a -> p b) 
 			      -> Polygon p a -> Polygon p b
 mapPolygon f (PolygonCW xs)   = PolygonCW (map f xs)
 mapPolygon f (PolygonCCW xs)  = PolygonCCW (map f xs)
@@ -67,7 +67,7 @@ Die Fläche eines Polygons wird nach Theorem 1.4.3 aus
 \cite{orourke94:cg} berechnet.
 
 \begin{code}
-area                          :: Fractional a => Polygon2 a -> a
+area                          :: (Fractional a, Eq a) => Polygon2 a -> a
 
 area poly                     = sumTri ps
     where sumTri (q:r:rest)   = Triangle.area (Triangle.Triangle (p,q,r)) + sumTri (r:rest)

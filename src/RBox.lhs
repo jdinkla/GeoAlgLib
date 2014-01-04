@@ -19,7 +19,7 @@
 > import Point ( Point (..), Point1 (..), Point2 (..), Point3 (..), 
 >                Point4 (..), PointN, pointN, toList )
 >
-> import IO    ( hPutStrLn, stdout, IOMode (WriteMode), openFile, hClose )
+> import System.IO    ( hPutStrLn, stdout, IOMode (WriteMode), openFile, hClose )
 > 
 > readP :: (Read a, Num a) => String -> IO (Int, Int, [[a]])
 > readP name
@@ -33,10 +33,10 @@
 > readPoints1 :: (Read a, Num a) => String -> IO (Int,Int,[Point1 a])
 > readPoints1 = readWith (\ [x] -> Point1 x) 
 > 
-> readPoints2 :: (Read a, Num a) => String -> IO (Int,Int,[Point2 a])
+> readPoints2 :: (Read a, Num a, Eq a) => String -> IO (Int,Int,[Point2 a])
 > readPoints2 = readWith (\ [x,y] -> Point2 (x,y))
 > 
-> readPoints3 :: (Read a, Num a) => String -> IO (Int,Int,[Point3 a])
+> readPoints3 :: (Read a, Num a, Eq a) => String -> IO (Int,Int,[Point3 a])
 > readPoints3 = readWith (\ [x,y,z] -> Point3 (x,y,z))
 > 
 > readPoints4 :: (Read a, Num a) => String -> IO (Int,Int,[Point4 a])
@@ -47,7 +47,7 @@
 
 Wir brauchen nur eine Ausgabefunktion
 
-> writePoints :: (Num a, Point p) => String -> [p a] -> IO ()
+> writePoints :: (Num a, Eq a, Point p, Show a) => String -> [p a] -> IO ()
 > writePoints name ps 
 >   = do h <- openFile name WriteMode
 >        let dim = dimension (head ps)

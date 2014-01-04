@@ -22,7 +22,7 @@ import Line (Line (Line, Segment), intersect, strictIntersect,
               point1, point2, vertical, Line2)
 import qualified EventStructureSpec as ES
 import qualified StatusStructureSpec as SS
-import Maybe (catMaybes)
+import Data.Maybe (catMaybes)
 import Basics.Sorting (nubSorted, merge)
 
 import MetaPost
@@ -136,14 +136,14 @@ test es p s t                 = maybe es (ES.insert es) intersection
 \end{code}
 
 \begin{code}
-tlines :: Num a => [Line2 a]
+tlines :: (Num a, Eq a) => [Line2 a]
 tlines = [ Segment (Point2 (2,2)) (Point2 (10,3)),
            Segment (Point2 (3,8)) (Point2 (12,5)),
            Segment (Point2 (7,7)) (Point2 (14,9)),
            Segment (Point2 (1,12)) (Point2 (8,5)),
            Segment (Point2 (4,5)) (Point2 (12,9)) ]
 
-tlines2 :: Num a => [Line2 a]
+tlines2 :: (Num a, Eq a) => [Line2 a]
 tlines2 = [ Segment (Point2 (1,1)) (Point2 (7,1)),
             Segment (Point2 (1,3)) (Point2 (7,3)),
             Segment (Point2 (1,5)) (Point2 (7,5)),
@@ -154,7 +154,7 @@ tlines2 = [ Segment (Point2 (1,1)) (Point2 (7,1)),
             Segment (Point2 (6,0)) (Point2 (6,8)),
             Segment (Point2 (2,2)) (Point2 (6,6)) ]
 
-tlines3 :: Num a => [Line2 a]
+tlines3 :: (Num a, Eq a) => [Line2 a]
 tlines3 = [
             Segment (Point2 (1,1)) (Point2 (1,7)),
             Segment (Point2 (5,1)) (Point2 (5,7)),

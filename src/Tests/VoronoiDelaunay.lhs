@@ -19,13 +19,14 @@
 > import qualified DelaunayDAG as DDAG
 > import RBox	    ( readPoints2 )
 > import MetaPost
-> import System	    ( ExitCode (ExitFailure), exitWith, getArgs )
-> import Maybe	    ( fromJust )
+> import System.Environment ( getArgs )
+> import System.Exit    ( ExitCode (ExitFailure), exitWith )
+> import Data.Maybe	    ( fromJust )
 > import Line	    ( Line ( Segment ) )
 > import Point2	    ( Point (mapP), Point2 (..), P2, xcoord, ycoord )
 > import Basics.DoubleEps
 > import Prelude    hiding (flip)
-> import Monad	    ( when )
+> import Control.Monad	    ( when )
 > import Triangle   ( Triangle2 )
 > import Numeric    ( showFFloat )
 >
@@ -62,13 +63,13 @@
 > dbl :: [P2 Double] -> [P2 DoubleEps]
 > dbl = map (mapP DoubleEps) 
 >
-> outPoints :: RealFloat a => Double -> [P2 a] -> IO ()
+> outPoints :: (RealFloat a, Show a) => Double -> [P2 a] -> IO ()
 > outPoints sc ps
 >   = do putStrLn ("beginfig(1);\npicture p;" ++ pen 3)
 >	 putMP [Scaled sc] ps 
 >	 putStrLn ("p := currentpicture;\nendfig;\n")
 >
-> outDC :: RealFloat a => Double -> (S.QEDS (DelEdge (P2 a)), b, b) -> IO ()
+> outDC :: (RealFloat a, Show a) => Double -> (S.QEDS (DelEdge (P2 a)), b, b) -> IO ()
 > outDC sc (q,_,_) 
 >   = do putStrLn ("beginfig(2);\ndraw p;" ++ pen 0.5)
 >	 putMP [Scaled sc, green] [Segment x y | (x,y) <- edges es]
@@ -76,7 +77,7 @@
 >   where es = map (attributes.snd) (S.connected q)
 >	  edges = map (\ e -> (D.source e, D.target e))
 >
-> outVor :: RealFloat a => Double -> [P2 a] -> (S.QEDS (Edges (P2 a)), b, b) -> IO ()
+> outVor :: (RealFloat a, Show a) => Double -> [P2 a] -> (S.QEDS (Edges (P2 a)), b, b) -> IO ()
 > outVor sc ps (q,_,_) 
 >   = do putStrLn ("beginfig(3);\ndraw p;" ++ pen 0.5)
 >	 putMP [Scaled sc, green] [Segment x y | (x,y) <- edges es]
@@ -94,7 +95,7 @@
 >	  ymax = 1.5 * maximum ys
 
 
-> outDAG :: RealFloat a => Double -> [Triangle2 a] -> IO ()
+> outDAG :: (RealFloat a, Show a) => Double -> [Triangle2 a] -> IO ()
 > outDAG sc ts
 >   = do putStrLn ("beginfig(4);\ndraw p;" ++ pen 0.5)
 >	 putMP [Scaled sc, blue] ts

@@ -20,10 +20,10 @@ import Point2    ( Point2 (..), P2, sqrDistance, rotate, angleWrt, angle3, angle
 import Line      ( Line (..), Line2, L2, centerOfSegment, intersect, doIntersect)
 import Polygon   ( Polygon (PolygonCW), Polygon2, angles, edges, vertices, 
 		   deleteCollinear, mapPolygon )
-import Maybe     ( fromJust, catMaybes, mapMaybe, isJust )
+import Data.Maybe     ( fromJust, catMaybes, mapMaybe, isJust )
 import Triangle  ( Triangle (..), Triangle2, contains, inInteriourOf, containsBNV )
-import List      ( elemIndex )
-import Array     ( Array, listArray, (!) )
+import Data.List      ( elemIndex )
+import Data.Array     ( Array, listArray, (!) )
 import Basics.ListCat
 import Basics.Utilities ( uncurry3, minimumWith, sublist2, minimumBy, sublist, splitWhile)
 \end{code}

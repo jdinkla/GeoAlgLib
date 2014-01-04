@@ -9,7 +9,7 @@
 \subsection{Funktionen zur Ausgabe in MetaPost (|MetaPost|)}
 \module{MetaPost}
 
->
+> {-# LANGUAGE FlexibleInstances  #-}
 > module MetaPost (
 >          MetaPost (..), Option (..), 
 >	   defaults, putMP, showMP, clip, pen, figure,
@@ -23,7 +23,7 @@
 > import Polygon   ( Polygon (..), vertices )
 > import Circle    ( Circle (..) )
 > import Numeric   ( showFFloat )
-> import List	   ( intersperse )
+> import Data.List	   ( intersperse )
 > import Basics.Sorting   ( sort )
 > import Basics.Utilities ( splitsAt )
 > import Basics.ListCat

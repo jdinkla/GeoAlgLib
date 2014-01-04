@@ -7,7 +7,7 @@ module Main where
 
 import Control.Monad
 import Data.IORef
-import System      ( ExitCode(..), exitWith )
+import System.Exit      ( ExitCode(..), exitWith )
 import Graphics.UI.GLUT
 
 data State = State {

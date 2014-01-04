@@ -19,7 +19,7 @@ import Basics.Utilities (relToFst, OrderRel, Rel, lessRel, equalRel, greaterRel)
 import Basics.Sorting (sortBy)
 --import Prelude hiding (lookup, head, tail, print, pred, succ)
 import Prelude hiding (lookup, pred, succ)
-import qualified List (insertBy, deleteBy)
+import qualified Data.List (insertBy, deleteBy)
 
 newtype Ord a => SS a b       = SS [(a,b)] deriving Show
 

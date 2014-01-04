@@ -18,8 +18,9 @@
 > import ChansConvexHull ( chan )
 > import MetaPost
 > import RBox        ( readPoints2 )
-> import System      ( ExitCode (ExitFailure), exitWith, getArgs )
-> import Maybe	     ( fromJust )
+> import System.Environment ( getArgs )
+> import System.Exit ( ExitCode (ExitFailure), exitWith )
+> import Data.Maybe  ( fromJust )
 > --import Compat      ( getArgs )
 > import Point (Point (mapP))
 > import Point2 (P2)

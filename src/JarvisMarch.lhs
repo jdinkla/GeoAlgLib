@@ -20,7 +20,7 @@ import Point2    ( Point2 (..), P2, Point2D,
 		   rightestLowest, sqrDistance, angleWrt, angle3,
 		   isCollinear, isRightTurnOrNearer )
 import Polygon   ( Polygon (PolygonCW), Polygon2 )
-import List      ( (\\) )
+import Data.List      ( (\\) )
 import Basics.Utilities ( maximumWith, maximumBy )
 \end{code}
 

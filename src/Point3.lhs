@@ -16,10 +16,10 @@ import PointClass
 \end{code}
 
 \begin{code}
-newtype Num a => Point3 a     = Point3 (a,a,a) deriving Eq
+newtype (Num a, Eq a) => Point3 a     = Point3 (a,a,a) deriving Eq
 type P3 a		      = Point3 a
 
-instance (Num a, Show a) => Show (Point3 a) where
+instance (Num a, Show a, Eq a) => Show (Point3 a) where
     showsPrec _ (Point3 (x,y,z)) = shows (x,y,z)
 
 instance Point Point3 where
@@ -40,7 +40,7 @@ instance Point Point3 where
     (Point3 (x,y,z)) <.> (Point3 (x',y',z')) 
                               = x*x' + y*y' + z*z'
 
-instance Num a                => Num (Point3 a) where
+instance (Num a, Eq a)        => Num (Point3 a) where
     (+)			      = (<+>)
     (-)			      = (<->)
     negate		      = negateP
@@ -49,7 +49,7 @@ instance Num a                => Num (Point3 a) where
     signum		      = undefined
     fromInteger		      = undefined
 
-cross3                        :: Num a => Point3 a -> Point3 a -> Point3 a
+cross3                        :: (Num a, Eq a) => Point3 a -> Point3 a -> Point3 a
 (Point3 (x1,x2,x3)) `cross3` (Point3 (y1,y2,y3)) 
                               = Point3 (x2*y3 - x3*y2, x3*y1 - x1*y3, x1*y2 - x2*y1)
 \end{code}
@@ -58,7 +58,7 @@ nach \cite[S. 26-27, 142]{orourke94:cg}. Zum Problem des Overflows
 siehe Seite 157ff, ebd.
 
 \begin{code}
-volume6	:: Num a => P3 a -> P3 a -> P3 a -> P3 a -> a
+volume6	:: (Num a, Eq a) => P3 a -> P3 a -> P3 a -> P3 a -> a
 volume6 (Point3 (a0,a1,a2)) (Point3 (b0,b1,b2)) 
         (Point3 (c0,c1,c2)) (Point3 (d0,d1,d2))
   = -b0*c1*d2 + a0*c1*d2 + b1*c0*d2 - a1*c0*d2 - a0*b1*d2

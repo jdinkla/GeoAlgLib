@@ -21,7 +21,7 @@ import Point     ( Point2, P2, lessX, xcoord, Point ((</=>), (<==>), mapP), sqrD
 import Basics.Sorting   ( sortBy )
 import Basics.Utilities ( relToSnd, relToFst, minimumWith, minimumBy)
 import RangeTree
-import List      ( deleteBy )
+import Data.List      ( deleteBy )
 \end{code}
 
 \begin{code}

@@ -13,7 +13,7 @@
 > 
 > import RBox      ( readPointsN )
 > import Point     ( Point, PointN, pointN )
-> import System    ( getArgs )
+> import System.Environment    ( getArgs )
 > import qualified KDTree as KD
 > import qualified RangeTree as RT
 > import Point     ( Point (dimension) )
@@ -32,7 +32,7 @@
 >             
 > data Query a = Member [a] | Range ([a], [a]) | Quit deriving Read
 >
-> queryLoop :: (Num a, Read a, Ord a) => Which -> [PointN a] -> IO ()
+> queryLoop :: (Num a, Read a, Ord a, Show a) => Which -> [PointN a] -> IO ()
 > queryLoop KD ps
 >   = query 
 >   where

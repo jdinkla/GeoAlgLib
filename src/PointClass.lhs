@@ -34,24 +34,24 @@ infix  4 <==>, </=>
 
 \begin{code}
 class Point p where
-    dimension                 :: Num a => p a -> Int
-    ith                       :: Num a => Int -> p a -> a
-    origin                    :: Num a => p a
+    dimension                 :: (Num a, Eq a) => p a -> Int
+    ith                       :: (Num a, Eq a) => Int -> p a -> a
+    origin                    :: (Num a, Eq a) => p a
 
     -- Functor
-    mapP                      :: (Num a, Num b) => (a -> b) -> p a -> p b 
+    mapP                      :: (Num a, Num b, Eq a, Eq b) => (a -> b) -> p a -> p b 
 
     -- Eq    
-    (<==>)                    :: Num a => p a -> p a -> Bool
-    (</=>)                    :: Num a => p a -> p a -> Bool
+    (<==>)                    :: (Num a, Eq a) => p a -> p a -> Bool
+    (</=>)                    :: (Num a, Eq a) => p a -> p a -> Bool
 
     -- Num
-    (<+>)                     :: Num a => p a -> p a -> p a
-    (<->)                     :: Num a => p a -> p a -> p a
-    negateP                   :: Num a => p a -> p a
+    (<+>)                     :: (Num a, Eq a) => p a -> p a -> p a
+    (<->)                     :: (Num a, Eq a) => p a -> p a -> p a
+    negateP                   :: (Num a, Eq a) => p a -> p a
 
-    (<.>)                     :: Num a => p a -> p a -> a
-    (<*>)                     :: Num a => a -> p a -> p a
+    (<.>)                     :: (Num a, Eq a) => p a -> p a -> a
+    (<*>)                     :: (Num a, Eq a) => a -> p a -> p a
 
     x </=> y                  = not (x <==> y)
     negateP                   = mapP (0-)
@@ -60,16 +60,16 @@ class Point p where
 \end{code}
 
 \begin{code}
-toList                        :: (Point p, Num a) => p a -> [a]
+toList                        :: (Point p, Num a, Eq a) => p a -> [a]
 toList p                      = [ ith i p | i <- [1..dimension p]]
 
-xcoord, ycoord, zcoord        :: (Num a, Point p) => p a -> a
+xcoord, ycoord, zcoord        :: (Num a, Eq a, Point p) => p a -> a
 xcoord                        = ith 1
 ycoord                        = ith 2
 zcoord                        = ith 3
 
 xDistance, yDistance, 
-  zDistance                   :: (Num a, Point p) => p a -> p a -> a
+  zDistance                   :: (Num a, Eq a, Point p) => p a -> p a -> a
 xDistance p q                 = abs (xcoord p - xcoord q)
 yDistance p q                 = abs (ycoord p - ycoord q)
 zDistance p q                 = abs (zcoord p - zcoord q)
@@ -79,7 +79,7 @@ Boolesche und \texttt{Ordering}-Relationen.
 
 Ordnungen auf Punkten
 \begin{code}
-lexic                         :: (Point p, Num a, Ord a) => OrderRel (p a)
+lexic                         :: (Point p, Num a, Eq a, Ord a) => OrderRel (p a)
 p `lexic` q                   = case is of
                                   [] -> EQ
                                   (i:_) -> compareIth i p q
@@ -90,7 +90,7 @@ Vergleiche einzelner Dimensionen
 
 \begin{code}
 lessIth, leqIth, equalIth,
-  geqIth, greaterIth        :: (Point p, Ord a, Num a) => Int -> Rel (p a)
+  geqIth, greaterIth        :: (Point p, Ord a, Eq a, Num a) => Int -> Rel (p a)
 
 lessIth			      = cmpAux (<)
 leqIth			      = cmpAux (<=)
@@ -98,12 +98,12 @@ equalIth		      = cmpAux (==)
 geqIth		              = cmpAux (>=)
 greaterIth		      = cmpAux (>)
 
-cmpAux                        :: (Point p, Num a) => Rel a -> Int -> Rel (p a)
+cmpAux                        :: (Point p, Num a, Eq a) => Rel a -> Int -> Rel (p a)
 cmpAux p i x y                = ith i x `p` ith i y
 
 lessX, leqX, equalX, geqX, greaterX,
     lessY, leqY, equalY, geqY, greaterY,
-    lessZ, leqZ, equalZ, geqZ, greaterZ :: (Point p, Ord a, Num a) => Rel (p a)
+    lessZ, leqZ, equalZ, geqZ, greaterZ :: (Point p, Ord a, Num a, Eq a) => Rel (p a)
 lessX			      = lessIth 1
 lessY			      = lessIth 2
 lessZ			      = lessIth 3
@@ -120,13 +120,13 @@ greaterX		      = greaterIth 1
 greaterY		      = greaterIth 2
 greaterZ		      = greaterIth 3
 
-compareIthBy                  :: (Num a, Point p) => OrderRel a -> Int -> OrderRel (p a)
+compareIthBy                  :: (Num a, Eq a, Point p) => OrderRel a -> Int -> OrderRel (p a)
 compareIthBy cmp i x y        = cmp (ith i x) (ith i y)
 
-compareIth                    :: (Ord a, Num a, Point p) => Int -> OrderRel (p a)
+compareIth                    :: (Ord a, Num a, Eq a, Point p) => Int -> OrderRel (p a)
 compareIth		      = compareIthBy compare
 
-compareX, compareY, compareZ  :: (Ord a, Num a, Point p) => OrderRel (p a)
+compareX, compareY, compareZ  :: (Ord a, Num a, Eq a, Point p) => OrderRel (p a)
 compareX		      = compareIth 1
 compareY		      = compareIth 2
 compareZ		      = compareIth 3
@@ -135,28 +135,28 @@ compareZ		      = compareIth 3
 Tests auf Enthaltensein in einem Intervall
 
 \begin{code}
-inIntervalIth                 :: (Point p, Num a, Ord a) => Int -> p a -> (p a,p a) -> Bool
+inIntervalIth                 :: (Point p, Num a, Ord a, Eq a) => Int -> p a -> (p a,p a) -> Bool
 inIntervalIth i x (p,q)       = ith i p <= y && y <= ith i q
   where y                     = ith i x
 
 inIntervalX, inIntervalY,
-    inIntervalZ		      :: (Point p, Num a, Ord a) => p a -> (p a, p a) -> Bool
+    inIntervalZ		      :: (Point p, Num a, Ord a, Eq a) => p a -> (p a, p a) -> Bool
 inIntervalX		      = inIntervalIth 1
 inIntervalY		      = inIntervalIth 2
 inIntervalZ		      = inIntervalIth 3
 
-inInterval                    :: (Point p, Num a, Ord a) => p a -> (p a,p a) -> Bool
+inInterval                    :: (Point p, Num a, Ord a, Eq a) => p a -> (p a,p a) -> Bool
 x `inInterval` (p,q)          = all (\ i -> inIntervalIth i x (p,q)) [1..dimension x]
 \end{code}
 
 \begin{code}
-norm                          :: (Point p, Floating a) => p a -> a
+norm                          :: (Point p, Floating a, Eq a) => p a -> a
 norm x                        = sqrt (x <.> x)
 
-distance                      :: (Point p, Floating a) => p a -> p a -> a
+distance                      :: (Point p, Floating a, Eq a) => p a -> p a -> a
 distance p q                  = norm (p <-> q)
 
-sqrDistance                   :: (Point p, Num a) => p a -> p a -> a
+sqrDistance                   :: (Point p, Num a, Eq a) => p a -> p a -> a
 sqrDistance p q               = r <.> r where r = p <-> q
 \end{code}
 

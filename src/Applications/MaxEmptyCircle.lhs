@@ -28,7 +28,7 @@ import Polygon	   ( Polygon (..), Polygon2, edges, vertices, angles )
 import Circle	   ( Circle (..), Circle2 )
 import Basics.Topped	   ( Topped (..), fromTopped, isFinite )
 import Basics.Utilities   ( relToFst, maximumBy, uncurry3 )
-import Maybe	   ( mapMaybe )
+import Data.Maybe	   ( mapMaybe )
 \end{code}
 
 |maxEmptyCircle| ermittelt den größten leeren Kreise innerhalb der konvexen Hülle einer

@@ -20,7 +20,7 @@ where
 import Point     ( P2, isRightTurnOrOn, isLeftTurn )
 import Polygon   ( Polygon2, angles, vertices )
 import Triangle  ( Triangle (..), Triangle2, containsBNV )
-import List      ( (\\) )
+import Data.List      ( (\\) )
 
 ketTri                        :: (Ord a, Num a) => Polygon2 a -> [Triangle2 a]
 ketTri poly		      = scan vs stack rs

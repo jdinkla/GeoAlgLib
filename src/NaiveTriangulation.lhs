@@ -19,7 +19,7 @@ import Point2             ( Point2, P2, isLeftTurn, isLeftTurnOrOn )
 import Line		  ( Line (..), Line2, doIntersect, sqrDistanceFromLine )
 import Polygon		  ( Polygon, Polygon2, edges, vertices, angles )
 import Triangle		  ( Triangle (..), Triangle2, containsBNV )
-import List               ( delete, (\\), zip4 )
+import Data.List               ( delete, (\\), zip4 )
 import Basics.Utilities          ( maximumWith, uncurry3, split, rotateL, rotateR )
 import Basics.ListCat
 \end{code}
@@ -75,7 +75,7 @@ diagonal ps | null inTriangle = Segment m p
 	inTriangle	      = filter (containsBNV (Triangle x)) ps
 	j		      = maximumWith (sqrDistanceFromLine (Line m p)) inTriangle
 
-triangulateBy                 :: Num a => ([P2 a] -> Line2 a) -> Polygon2 a -> [Triangle2 a]
+triangulateBy                 :: (Num a, Eq a) => ([P2 a] -> Line2 a) -> Polygon2 a -> [Triangle2 a]
 triangulateBy diag            = tri . vertices
   where
   tri [x,y,z]                 = [Triangle (x,y,z)]
@@ -83,7 +83,7 @@ triangulateBy diag            = tri . vertices
     where (Segment p q)       = diag ps
           (ls, rs)            = split p q ps
 
-triangulateBy'                 :: Num a => ([P2 a] -> Line2 a) -> Polygon2 a -> [Triangle2 a]
+triangulateBy'                 :: (Num a, Eq a) => ([P2 a] -> Line2 a) -> Polygon2 a -> [Triangle2 a]
 triangulateBy' diag            = list . tri . vertices
   where
   tri [x,y,z]                 = unit (Triangle (x,y,z))

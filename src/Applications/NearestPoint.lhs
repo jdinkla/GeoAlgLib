@@ -22,8 +22,8 @@ import Basics.Utilities (minimumWith, relToSnd)
 import Control.Monad.ST ( ST )
 import Control.Monad.ST (runST)
 import Basics.STUtils
-import Array 
-import Maybe (fromJust)
+import Data.Array 
+import Data.Maybe (fromJust)
 \end{code}
 
 \begin{code}
@@ -58,7 +58,7 @@ locate dag p
 getThe                        :: StaticDDAG a -> Index -> Node a
 getThe dag i		      = fromJust (dag ! i)
 
-manyNearest		      :: (Ord a, Fractional a) => [P2 a] -> [P2 a] -> [(P2 a, P2 a)]
+manyNearest		      :: (Ord a, Fractional a, Show a) => [P2 a] -> [P2 a] -> [(P2 a, P2 a)]
 manyNearest ps qs	      = [ (p, nearestPoint dag p) | p <- qs]
   where dag		      = delaunay ps
 \end{code}

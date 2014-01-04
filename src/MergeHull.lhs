@@ -21,7 +21,7 @@ import Point2    ( P2, Point2, equalX, leftOrBelow,
 		   leftest, rightest, 
 		   isLeftTurn, isRightTurn, clockwise3 )
 import Polygon   ( Polygon (PolygonCW), Polygon2, inConvex, deleteCollinear )
-import List      ( groupBy )
+import Data.List      ( groupBy )
 import Divide    ( SplitTree (..), splitTree, reduce )
 import Basics.Utilities ( rotateTo, extremaBy, Rel3, sublist )
 import Basics.Sorting   ( sortBy )

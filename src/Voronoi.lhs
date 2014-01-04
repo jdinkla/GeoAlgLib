@@ -24,7 +24,7 @@ import Line     ( Line (Segment, Ray), Line2, intersect, centerOfSegment, bisect
 import Basics.Topped   ( Topped (..))
 import Control.Monad.ST ( ST )
 import Control.Monad.ST (runST)
-import Maybe    ( catMaybes )
+import Data.Maybe    ( catMaybes )
 import Prelude  hiding (flip)
 import Basics.Utilities ( foreach, foreach_ ) 
 \end{code}

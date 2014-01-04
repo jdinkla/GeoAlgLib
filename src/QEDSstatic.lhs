@@ -10,7 +10,7 @@ module QEDSstatic (module QEDSstatic, module QEDSbasics) where
 
 import Prelude hiding (flip, lookup)
 import QEDSbasics
-import qualified Array as A
+import qualified Data.Array as A
 import qualified Basics.Pretty as Pr
 import Control.Monad.ST ( ST )
 import Control.Monad.ST (runST)

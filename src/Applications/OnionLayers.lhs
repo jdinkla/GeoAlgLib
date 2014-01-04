@@ -20,7 +20,7 @@ Hülle die kollinearen Punkte ausgibt.
 > import Polygon   ( Polygon, Polygon2, vertices )
 > import GrahamsScan ( graham4 )
 > import Basics.Sorting   ( nubSortBy )
-> import List	 ( (\\) )
+> import Data.List	 ( (\\) )
 > import MetaPost
 > import Tests.Test
 >

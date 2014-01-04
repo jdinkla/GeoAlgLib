@@ -44,7 +44,7 @@ instance Point Point4 where
     (Point4 (x,y,z,u)) <.> (Point4 (x',y',z',u')) 
                               = x*x' + y*y' + z*z' + u*u'
 
-instance Num a                => Num (Point4 a) where
+instance (Num a, Eq a)        => Num (Point4 a) where
     (+)			      = (<+>)
     (-)			      = (<->)
     negate		      = negateP

@@ -14,7 +14,7 @@ module Tests.Test ( module Tests.Test, module Basics.Random ) where
 
 import Point   ( Point1 (..), Point2 (..), Point3 (..), Point4 (..), pointN, 
 		 PointN (..), Point ((<*>)) )
-import List    ( zip4 )
+import Data.List    ( zip4 )
 import Basics.Random  ( randomInts, randomDoubles )
 import Basics.Utilities ( splitsAt )
 \end{code}
@@ -32,10 +32,10 @@ split d  = splitsAt d
 to1 :: Num a => [[a]] ->  [Point1 a]
 to1 = map (\ [x] -> Point1 x)
 
-to2 :: Num a => [[a]] ->  [Point2 a]
+to2 :: (Num a, Eq a) => [[a]] ->  [Point2 a]
 to2 = map (\ [x,y] -> Point2 (x,y))
 
-to3 :: Num a => [[a]] ->  [Point3 a]
+to3 :: (Num a, Eq a) => [[a]] ->  [Point3 a]
 to3 = map (\ [x,y,z] -> Point3 (x,y,z))
 
 to4 :: Num a => [[a]] ->  [Point4 a]

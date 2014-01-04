@@ -16,7 +16,7 @@
 > import Basics.OrderStat ( median, medianBy )
 > import Basics.Sorting ( nubSortBy )
 > 
-> import List ( groupBy )
+> import Data.List ( groupBy )
 >
 > type Partition a            = (a,([a],[a],[a]))
 > 

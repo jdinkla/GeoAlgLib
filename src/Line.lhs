@@ -15,12 +15,12 @@ module Line where
 import Point  ( Point ((<+>),(<*>)), Point3, xcoord, ycoord, zcoord, 
 		distance, sqrDistance )
 import Point2 ( Point2 (..), P2, Orientation (..), orientation, angle2 )
-import Maybe  ( isJust, fromJust )
+import Data.Maybe  ( isJust, fromJust )
 import qualified Point2 (translate, rotateOrg, reflect, rotate)
 \end{code}
 
 \begin{code}
-data (Point p, Num a) => Line p a 
+data (Point p, Num a, Eq a) => Line p a 
 			      = Segment { point1, point2 :: p a }
                               | Ray     { point1, point2 :: p a }
                               | Line    { point1, point2 :: p a } 
@@ -33,16 +33,16 @@ type Line3 a		      = Line Point3 a
 
 \begin{code}
 segmentToRay, segmentToLine, 
-    rayToLine		      :: (Point p, Num a) => Line p a -> Line p a
+    rayToLine		      :: (Point p, Num a, Eq a) => Line p a -> Line p a
 segmentToRay (Segment x y)    = Ray x y
 segmentToLine (Segment x y)   = Line x y
 rayToLine (Ray x y)           = Line x y
 
-source, target                :: (Point p, Num a) => Line p a -> p a
+source, target                :: (Point p, Num a, Eq a) => Line p a -> p a
 source (Segment a _)          = a
 target (Segment _ b)          = b
 
-mapLine                       :: (Point p, Num a, Num b) => (p a -> p b) -> Line p a -> Line p b
+mapLine                       :: (Point p, Num a, Num b, Eq a, Eq b) => (p a -> p b) -> Line p a -> Line p b
 mapLine f (Segment x y)	      = Segment (f x) (f y)
 mapLine f (Ray x y)	      = Ray (f x) (f y)
 mapLine f (Line x y)	      = Line (f x) (f y)
@@ -51,7 +51,7 @@ mapLine f (Line x y)	      = Line (f x) (f y)
 \begin{code}
 xcoord1, xcoord2, 
     ycoord1, ycoord2,
-    zcoord1, zcoord2	      :: (Point p, Num a) => Line p a -> a
+    zcoord1, zcoord2	      :: (Point p, Num a, Eq a) => Line p a -> a
 xcoord1                       = xcoord . point1
 ycoord1                       = ycoord . point1
 zcoord1                       = zcoord . point1
@@ -63,15 +63,15 @@ zcoord2                       = zcoord . point2
 |dx|, |dy| sind die Differenzen der $x$- bzw. der $y$-Koordinaten der zwei Punkte.
 
 \begin{code}
-dx,dy                         :: Num a => L2 a -> a
+dx,dy                         :: (Num a, Eq a) => L2 a -> a
 dx s                          = xcoord2 s - xcoord1 s
 dy s                          = ycoord2 s - ycoord1 s
 
-isVertical, isHorizontal      :: Num a => L2 a -> Bool
+isVertical, isHorizontal      :: (Num a, Eq a) => L2 a -> Bool
 isVertical s                  = ycoord1 s == ycoord2 s
 isHorizontal s                = xcoord1 s == xcoord2 s
 
-horizontal, vertical          :: Num a => a -> L2 a
+horizontal, vertical          :: (Num a, Eq a) => a -> L2 a
 horizontal y                  = Line (Point2 (0, y)) (Point2 (1, y))
 vertical x                    = Line (Point2 (x, 0)) (Point2 (x,1))
 \end{code}
@@ -83,12 +83,12 @@ Darstellung ist, daß die Darstellung nicht eindeutig ist, $-0=+0$.
 data Fractional a => Slope a  = Vertical | Slope a 
 				deriving (Eq, Show)
 
-slope                         :: Fractional a => L2 a -> Slope a
+slope                         :: (Fractional a, Eq a) => L2 a -> Slope a
 slope s | dx' == 0	      = Vertical 
 	| otherwise	      = Slope (dy s / dx')
   where dx'                   = dx s
 
-areParallel                   :: Fractional a => L2 a -> L2 a -> Bool
+areParallel                   :: (Fractional a, Eq a) => L2 a -> L2 a -> Bool
 areParallel s t               = slope s == slope t
 \end{code}
 
@@ -122,7 +122,7 @@ rotate s r phi                = mapLine (\ x -> Point2.rotate x r phi) s
 rotateOrg                     :: (Floating a, Ord a) => L2 a -> a -> L2 a
 rotateOrg s phi               = mapLine (\ x -> Point2.rotateOrg x phi) s
 
-reflect                       :: Fractional a => L2 a -> P2 a -> P2 a -> L2 a
+reflect                       :: (Fractional a, Eq a) => L2 a -> P2 a -> P2 a -> L2 a
 reflect s p q                 = mapLine (\ x -> Point2.reflect x p q) s
 \end{code}
 
@@ -185,14 +185,14 @@ strictIntersect               = interAux paramOk
     paramOk (Line _ _) r      = True
 doStrictIntersect s t         = isJust (strictIntersect s t)
 
-interAux 		      :: Fractional a => (Line2 a -> a -> Bool) -> Line2 a 
+interAux 		      :: (Fractional a, Eq a) => (Line2 a -> a -> Bool) -> Line2 a 
 			      -> Line2 a -> Maybe (Point2 a)
 interAux ok s1 s2             = if isJust res && ok s1 r && ok s2 s then Just i else Nothing
   where
   res                         = intersection s1 s2
   (i,r,s)                     = fromJust res
   
-intersection                 :: Fractional a => L2 a -> L2 a -> Maybe (Point2 a,a,a)
+intersection                 :: (Fractional a, Eq a) => L2 a -> L2 a -> Maybe (Point2 a,a,a)
 intersection s1 s2
   | denom == 0	              = Nothing
   | otherwise		      = Just (i, r, s)
@@ -234,7 +234,7 @@ sqrDistanceFromLine (Segment a b) c
   | 0<=r && r<=1              = abs (s*s*l2)
   where (r,s,l2,_)            = distanceAux a b c
 
-distanceAux		      :: Fractional a => P2 a -> P2 a -> P2 a -> (a,a,a,P2 a)
+distanceAux		      :: (Fractional a, Eq a) => P2 a -> P2 a -> P2 a -> (a,a,a,P2 a)
 distanceAux a@(Point2 (xa,ya)) b@(Point2 (xb,yb)) c@(Point2 (xc,yc))
                               = (r, s, l2, i)
   where l2                    = sqrLengthOfSegment (Segment a b)
@@ -245,20 +245,20 @@ distanceAux a@(Point2 (xa,ya)) b@(Point2 (xb,yb)) c@(Point2 (xc,yc))
 \end{code}
 
 \begin{code}
-lengthOfSegment               :: (Point p, Floating a) => Line p a -> a
+lengthOfSegment               :: (Point p, Floating a, Eq a) => Line p a -> a
 lengthOfSegment (Segment p q) = distance p q
 
-sqrLengthOfSegment            :: (Point p, Num a) => Line p a -> a
+sqrLengthOfSegment            :: (Point p, Num a, Eq a) => Line p a -> a
 sqrLengthOfSegment (Segment p q) = sqrDistance p q
 
-centerOfSegment               :: (Point p, Fractional a) => Line p a -> p a
+centerOfSegment               :: (Point p, Fractional a, Eq a) => Line p a -> p a
 centerOfSegment (Segment p q) = 0.5 <*> (p <+> q)
 
-perpendicular                 :: Fractional a => L2 a -> L2 a
+perpendicular                 :: (Fractional a, Eq a) => L2 a -> L2 a
 perpendicular s@(Segment p q) = Line p (p - (Point2 (ycoord q - ycoord p, xcoord p - xcoord q)))
   where c                     = centerOfSegment s
 
-bisector                      :: Fractional a => L2 a -> L2 a
+bisector                      :: (Fractional a, Eq a) => L2 a -> L2 a
 bisector s@(Segment p q)      = Line c (c + (Point2 (ycoord q - ycoord p, xcoord p - xcoord q)))
   where c                     = centerOfSegment s
 \end{code}

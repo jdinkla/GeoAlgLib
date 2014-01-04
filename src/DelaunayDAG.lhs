@@ -14,9 +14,9 @@ module DelaunayDAG (
 
 import Point2    ( Point2, P2, isLeftTurn, isRightTurn, leftOf, sqrDistance )
 import Circle    ( circleFrom3Points )
-import Array     ( Array, (!) )
-import Monad     ( unless )
-import Maybe     ( catMaybes )
+import Data.Array     ( Array, (!) )
+import Control.Monad     ( unless )
+import Data.Maybe     ( catMaybes )
 import qualified Circle as C
 import qualified Triangle as Tri
 import Prelude   hiding ( lookup )
@@ -96,7 +96,7 @@ isInConflict p (Triangle c r2 _ _ _) = sqrDistance p c < r2
 -- INSERTSITE
 --
 
-insertSite :: (Ord a,Fractional a) => DDAG s a -> P2 a -> ST s ()
+insertSite :: (Ord a,Fractional a, Show a) => DDAG s a -> P2 a -> ST s ()
 insertSite dag p 
   = do msg ("%insertSite " ++ show p)
        ks <- locate dag p
@@ -156,7 +156,7 @@ isHalfplane (Halfplane _ _)   = True
 isHalfplane _		      = False
 
 -- garantiert, daß die Punkte in der Ausgabe in v direkt aufeinanderfolgen
-commonFacet                   :: Num a => Simplex a -> Simplex a -> [P2 a]
+commonFacet                   :: (Num a, Eq a) => Simplex a -> Simplex a -> [P2 a]
 commonFacet v s		      
   | isHalfplane v	      = reverse (g ms)
   | otherwise		      = g ms
@@ -179,7 +179,7 @@ connect dag s v i
 --
 -- UPDATENEIGHBOURS
 --
-updateNeighbours :: Num a => DDAG s a -> Index -> ST s ()
+updateNeighbours :: (Num a, Eq a) => DDAG s a -> Index -> ST s ()
 updateNeighbours dag v
   = do e_v <- getThe dag v
        foreach_ (neighboursList e_v) (check e_v)
@@ -217,7 +217,7 @@ nextCW (n1,n2,n3) s
   | n3 == s		      = n1
 
 -- ermittelt einen Nachbar von |e_i| der die Ecken in |ps| enthält.
-commonNeighbour :: Num a => DDAG s a -> Node a -> [P2 a] -> ST s Index
+commonNeighbour :: (Num a, Eq a) => DDAG s a -> Node a -> [P2 a] -> ST s Index
 commonNeighbour dag e_i ps
   = do xs <- foreach ns (\ i -> do e_i <- getThe dag i
 				   return (vertices (simplex e_i)))
@@ -225,7 +225,7 @@ commonNeighbour dag e_i ps
   where ns	              = neighboursList e_i
 	allElem (_, xs)	      = all (`elem` xs) ps
 
-next :: Num a => [P2 a] -> Node a -> Node a -> Index -> (Index, Index)
+next :: (Num a, Eq a) => [P2 a] -> Node a -> Node a -> Index -> (Index, Index)
 next xs e_l e_r c	      = nxt xs
   where nxt [x,y]	      = (left x, right y)
 	nxt [x]		      = ( if l==c then edgeX s_l n_l x else l, 
@@ -238,7 +238,7 @@ next xs e_l e_r c	      = nxt xs
 	left x		      = edgeL s_l n_l x
 	right x		      = edgeR s_r n_r x
 
-edgeL,edgeR, edgeX            :: Num a => Simplex a -> Neighbours -> P2 a -> Index
+edgeL,edgeR, edgeX            :: (Num a, Eq a) => Simplex a -> Neighbours -> P2 a -> Index
 edgeL (Halfplane s t) (n1,n2,n3) p	-- die danach
   | p == s                    = n1
   | p == t		      = n3
@@ -262,7 +262,7 @@ edgeX (Halfplane s t) (n1,n2,n3) p	-- die andere
   | p == t		      = n1
   | otherwise		      = n3
 
-mkNbs                         :: Num a => P2 a -> Index -> Index -> Index -> Node a -> Neighbours
+mkNbs                         :: (Num a, Eq a) => P2 a -> Index -> Index -> Index -> Node a -> Neighbours
 mkNbs p s n1 n2 x	      = chk (vertices (simplex x))
   where chk (p1:p2:_)
 	  | p1 == p	      = (s, n2, n1)
@@ -272,7 +272,7 @@ mkNbs p s n1 n2 x	      = chk (vertices (simplex x))
 --
 -- DELAUNAY
 --
-delaunay		      :: (Ord a, Fractional a) => [P2 a] -> StaticDDAG a
+delaunay		      :: (Ord a, Fractional a, Show a) => [P2 a] -> StaticDDAG a
 delaunay ps		      = runST (do dag <- initDDAG (take 3 ps)
 					  foreach (drop 3 ps) (insertSite dag)
 					  freeze dag)

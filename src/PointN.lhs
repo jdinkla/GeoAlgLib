@@ -12,7 +12,7 @@
 > module PointN (module PointClass, module PointN) where
 > 
 > import PointClass
-> import Array (Array, elems, listArray, bounds, (!))
+> import Data.Array (Array, elems, listArray, bounds, (!))
 > 
 > newtype Num a => PointN a     = PointN (Array Int a) deriving Eq
 > 
@@ -37,7 +37,7 @@
 >       | bounds x ==bounds y   = sum (zipWith (*) (elems x) (elems y))
 >       | otherwise             = error "Point.PointN dimension"
 > 
-> instance Num a                => Num (PointN a) where
+> instance (Num a, Eq a)              => Num (PointN a) where
 >     (+)			      = (<+>)
 >     (-)			      = (<->)
 >     negate		      = negateP

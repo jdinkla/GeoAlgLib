@@ -1,5 +1,5 @@
 Name:        GeomAlgLib
-Version:    0.2.0
+Version:    0.2.0.1
 Cabal-Version:  >= 1.2
 License:    GPL
 License-File:    LICENSE-GPL.txt
@@ -11,8 +11,8 @@ Copyright:   (c) 1997, 1998, 2008 by Joern Dinkla, www.dinkla.net
 Maintainer:  joern@dinkla.net
 
 Library
-  Build-Depends:    base, haskell98, array
-  GHC-Options:  -fglasgow-exts -syslib ghc
+  Build-Depends:    base > 4, array
+  GHC-Options: -package ghc
   hs-source-dirs: src
   Exposed-modules:
     Basics.DoubleEps, Basics.DynamicArray, Basics.FiniteMap, Basics.ListCat,
@@ -33,38 +33,36 @@ Executable convexHulls
     Main-Is: Tests/ConvexHulls.lhs
     hs-source-dirs: src
     Other-Modules: GrahamsScan, JarvisMarch, MergeHull, KirkpatrickSeidelHull, ChansConvexHull
-    GHC-Options:  -fglasgow-exts -syslib ghc
+    GHC-Options: -package ghc
 
 Executable nearest
     Main-Is: Tests/Nearest.lhs
     hs-source-dirs: src
     Other-Modules: Applications.NearestPoint DelaunayDAG
-    GHC-Options:  -fglasgow-exts -syslib ghc
+    GHC-Options: -package ghc
 
 Executable rangeQueries
     Main-Is: Tests/RangeQueries.lhs
     hs-source-dirs: src
     Other-Modules: KDTree RangeTree
-    GHC-Options:  -fglasgow-exts -syslib ghc
+    GHC-Options: -package ghc
 
 Executable triangulations
     Main-Is: Tests/Triangulations.lhs
     hs-source-dirs: src
     Other-Modules: ConvexTriangulation, NaiveTriangulation, MonotoneTriangulation, GareysTriangulation,
         KETTriangulation, AdaptTriangulation, MergeTriangulation
-    GHC-Options:  -fglasgow-exts -syslib ghc
+    GHC-Options: -package ghc
 
 Executable voronoiDelaunay
     Main-Is: Tests/VoronoiDelaunay.lhs
     hs-source-dirs: src
     Other-Modules: Delaunay Voronoi
-    GHC-Options:  -fglasgow-exts -syslib ghc
+    GHC-Options: -package ghc
 
 Executable glConvexHulls
     Main-Is: OpenGL/GL_ConvexHulls.lhs
     hs-source-dirs: src
     Other-Modules: GrahamsScan, JarvisMarch, MergeHull, KirkpatrickSeidelHull, ChansConvexHull
-    Build-Depends:    base, haskell98, array, GLUT
-    GHC-Options:  -fglasgow-exts -syslib ghc
-
-    
+    Build-Depends:    base, array, GLUT
+    GHC-Options:  -package ghc
