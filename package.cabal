@@ -1,0 +1,70 @@
+Name:        GeomAlgLib
+Version:    0.2.0
+Cabal-Version:  >= 1.2
+License:    GPL
+License-File:    LICENSE-GPL.txt
+Author:        Joern Dinkla
+Homepage:    http://www.dinkla.net/
+Category:    Computational Geometry
+Synopsis:    A library of geometric algorithms for Haskell
+Copyright:   (c) 1997, 1998, 2008 by Joern Dinkla, www.dinkla.net
+Maintainer:  joern@dinkla.net
+
+Library
+  Build-Depends:    base, haskell98, array
+  GHC-Options:  -fglasgow-exts -syslib ghc
+  hs-source-dirs: src
+  Exposed-modules:
+    Basics.DoubleEps, Basics.DynamicArray, Basics.FiniteMap, Basics.ListCat,
+    Basics.OrderStat, Basics.QSort, Basics.Pretty, Basics.Random, Basics.STUtils, Basics.Sort, Basics.Sorting,
+    Basics.Topped, Basics.Utilities,
+    AdaptTriangulation, Assocs, ChansConvexHull, Circle, ConvexTriangulation,
+    Delaunay, DelaunayDAG, Divide, EventStructureSpec, GareysTriangulation,
+    GrahamsScan, JarvisMarch, KDTree, KETTriangulation, KirkpatrickSeidelHull,
+    Line, MergeHull, MergeTriangulation, MetaPost, MonotonePartition, MonotoneTriangulation,
+    NaiveTriangulation, Pertub, Point, Point1, Point2, Point3, Point4, PointClass, PointN, 
+    Polar, Polygon, QEDS, QEDSbasics, QEDSstatic, RBox, RPG, RangeTree, SegmentIntersection,
+    StatusStructureSpec, Triangle, Voronoi,  
+    Tests.Test, Tests.Polys, 
+    Applications.AllNearest, Applications.ClosestPair, Applications.DelaunayHull, Applications.MaxEmptyCircle, 
+    Applications.NearestPoint, Applications.OnionLayers
+
+Executable convexHulls
+    Main-Is: Tests/ConvexHulls.lhs
+    hs-source-dirs: src
+    Other-Modules: GrahamsScan, JarvisMarch, MergeHull, KirkpatrickSeidelHull, ChansConvexHull
+    GHC-Options:  -fglasgow-exts -syslib ghc
+
+Executable nearest
+    Main-Is: Tests/Nearest.lhs
+    hs-source-dirs: src
+    Other-Modules: Applications.NearestPoint DelaunayDAG
+    GHC-Options:  -fglasgow-exts -syslib ghc
+
+Executable rangeQueries
+    Main-Is: Tests/RangeQueries.lhs
+    hs-source-dirs: src
+    Other-Modules: KDTree RangeTree
+    GHC-Options:  -fglasgow-exts -syslib ghc
+
+Executable triangulations
+    Main-Is: Tests/Triangulations.lhs
+    hs-source-dirs: src
+    Other-Modules: ConvexTriangulation, NaiveTriangulation, MonotoneTriangulation, GareysTriangulation,
+        KETTriangulation, AdaptTriangulation, MergeTriangulation
+    GHC-Options:  -fglasgow-exts -syslib ghc
+
+Executable voronoiDelaunay
+    Main-Is: Tests/VoronoiDelaunay.lhs
+    hs-source-dirs: src
+    Other-Modules: Delaunay Voronoi
+    GHC-Options:  -fglasgow-exts -syslib ghc
+
+Executable glConvexHulls
+    Main-Is: OpenGL/GL_ConvexHulls.lhs
+    hs-source-dirs: src
+    Other-Modules: GrahamsScan, JarvisMarch, MergeHull, KirkpatrickSeidelHull, ChansConvexHull
+    Build-Depends:    base, haskell98, array, GLUT
+    GHC-Options:  -fglasgow-exts -syslib ghc
+
+    
