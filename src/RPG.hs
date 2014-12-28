@@ -36,8 +36,8 @@ isComment "" = True
 isComment ('#':_) = True
 isComment _ = False
 
-points            :: (Read a, Num a, Eq a) => [String] -> [Point2 a]
-points xs                = map ((\ [x,y] -> Point2 (read x, read y)) . words) xs
+points :: (Read a, Num a, Eq a) => [String] -> [Point2 a]
+points xs = map ((\ [x,y] -> Point2 (read x, read y)) . words) xs
 
 
 --Ausgabefunktionen fehlen noch
