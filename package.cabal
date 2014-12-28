@@ -11,44 +11,44 @@ Copyright:   (c) 1997, 1998, 2008 by Joern Dinkla, www.dinkla.net
 Maintainer:  joern@dinkla.net
 
 Library
-  Build-Depends:    base > 4, array
+  Build-Depends:    base > 4, array, containers
   GHC-Options: -package ghc
   hs-source-dirs: src
   Exposed-modules:
-    Basics.DoubleEps, Basics.DynamicArray, Basics.FiniteMap, Basics.ListCat,
+    Basics.DoubleEps, Basics.DynamicArray, Basics.ListCat,
     Basics.OrderStat, Basics.QSort, Basics.Pretty, Basics.Random, Basics.STUtils, Basics.Sort, Basics.Sorting,
     Basics.Topped, Basics.Utilities,
     AdaptTriangulation, Assocs, ChansConvexHull, Circle, ConvexTriangulation,
     Delaunay, DelaunayDAG, Divide, EventStructureSpec, GareysTriangulation,
     GrahamsScan, JarvisMarch, KDTree, KETTriangulation, KirkpatrickSeidelHull,
     Line, MergeHull, MergeTriangulation, MetaPost, MonotonePartition, MonotoneTriangulation,
-    NaiveTriangulation, Pertub, Point, Point1, Point2, Point3, Point4, PointClass, PointN, 
+    NaiveTriangulation, Pertub, Point, Point1, Point2, Point3, Point4, PointClass, PointN,
     Polar, Polygon, QEDS, QEDSbasics, QEDSstatic, RBox, RPG, RangeTree, SegmentIntersection,
-    StatusStructureSpec, Triangle, Voronoi,  
-    Tests.Test, Tests.Polys, 
-    Applications.AllNearest, Applications.ClosestPair, Applications.DelaunayHull, Applications.MaxEmptyCircle, 
+    StatusStructureSpec, Triangle, Voronoi,
+    Tests.Test, Tests.Polys,
+    Applications.AllNearest, Applications.ClosestPair, Applications.DelaunayHull, Applications.MaxEmptyCircle,
     Applications.NearestPoint, Applications.OnionLayers
 
 Executable convexHulls
-    Main-Is: Tests/ConvexHulls.lhs
+    Main-Is: Tests/ConvexHulls.hs
     hs-source-dirs: src
     Other-Modules: GrahamsScan, JarvisMarch, MergeHull, KirkpatrickSeidelHull, ChansConvexHull
     GHC-Options: -package ghc
 
 Executable nearest
-    Main-Is: Tests/Nearest.lhs
+    Main-Is: Tests/Nearest.hs
     hs-source-dirs: src
     Other-Modules: Applications.NearestPoint DelaunayDAG
     GHC-Options: -package ghc
 
 Executable rangeQueries
-    Main-Is: Tests/RangeQueries.lhs
+    Main-Is: Tests/RangeQueries.hs
     hs-source-dirs: src
     Other-Modules: KDTree RangeTree
     GHC-Options: -package ghc
 
 Executable triangulations
-    Main-Is: Tests/Triangulations.lhs
+    Main-Is: Tests/Triangulations.hs
     hs-source-dirs: src
     Other-Modules: ConvexTriangulation, NaiveTriangulation, MonotoneTriangulation, GareysTriangulation,
         KETTriangulation, AdaptTriangulation, MergeTriangulation

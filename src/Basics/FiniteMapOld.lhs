@@ -1,22 +1,22 @@
-%------------------------------------------------------------------------------
-% Copyright (C) 1997, 1998, 2008 Joern Dinkla, www.dinkla.net
-%------------------------------------------------------------------------------
-%
-%  9.11.1997
+--------------------------------------------------------------------------------
+-- Copyright (C) 1997, 1998, 2008 Joern Dinkla, www.dinkla.net
+--------------------------------------------------------------------------------
+--
+--  9.11.1997
 \subsection{Endliche Abbildungen (\texttt{FiniteMap})}
 \module{FiniteMap}
 
 Dieses ist das Modul \texttt{FiniteMap} der GHC-Bibliothek. Wir haben
-nur die Funktionen umbenannt. 
+nur die Funktionen umbenannt.
 
-Die von mir hinzugefügten Funktionen \texttt{prev}, \texttt{prevBy},
+Die von mir hinzugefÃ¼gten Funktionen \texttt{prev}, \texttt{prevBy},
 \texttt{next}, \texttt{nextBy}, \texttt{addToBy} und
 \texttt{addToBy_C} sind fehlerhaft. Ich hatte keine Zeit sie genauer
 zu implementieren.
 
-%
-% (c) The AQUA Project, Glasgow University, 1994-1996
-%
+--
+-- (c) The AQUA Project, Glasgow University, 1994-1996
+--
 \section[FiniteMap]{An implementation of finite maps}
 
 ``Finite maps'' are the heart of the compiler's
@@ -48,11 +48,11 @@ import Maybes
 \end{code}
 
 
-%************************************************************************
-%*									*
+--************************************************************************
+--*									*
 \subsection{The signature of the module}
-%*									*
-%************************************************************************
+--*									*
+--************************************************************************
 
 \begin{code}
 --	BUILDING
@@ -79,12 +79,12 @@ insertManyC	:: (Ord key) => (elt -> elt -> elt)
 			   -> FiniteMap key elt
 
 -- jdi 12.11.1997
-insertBy  	:: (Ord key) => ((key, elt) -> (key, elt) -> Ordering) 
+insertBy  	:: (Ord key) => ((key, elt) -> (key, elt) -> Ordering)
 			   -> FiniteMap key elt -> (key, elt)
 			   -> FiniteMap key elt
 
 -- jdi 12.11.1997
-insertByC	:: (Ord key) => ((key, elt) -> (key, elt) -> Ordering) 
+insertByC	:: (Ord key) => ((key, elt) -> (key, elt) -> Ordering)
 			   -> (elt -> elt -> elt)
 			   -> FiniteMap key elt -> (key, elt)
 			   -> FiniteMap key elt
@@ -94,9 +94,9 @@ insertByC	:: (Ord key) => ((key, elt) -> (key, elt) -> Ordering)
 		   -- which isn't there
 delete		:: (Ord key) => FiniteMap key elt -> key   -> FiniteMap key elt
 deleteMany	:: (Ord key) => FiniteMap key elt -> [key] -> FiniteMap key elt
-deleteBy	:: (Ord key) => ((key, elt) -> (key, elt) -> Ordering) -> FiniteMap key elt 
+deleteBy	:: (Ord key) => ((key, elt) -> (key, elt) -> Ordering) -> FiniteMap key elt
 		-> (key,elt)   -> FiniteMap key elt
-deleteManyBy	:: (Ord key) => ((key, elt) -> (key, elt) -> Ordering) -> FiniteMap key elt 
+deleteManyBy	:: (Ord key) => ((key, elt) -> (key, elt) -> Ordering) -> FiniteMap key elt
 		-> [(key,elt)] -> FiniteMap key elt
 
 --	COMBINING
@@ -138,11 +138,11 @@ keys		:: FiniteMap key elt -> [key]
 elts		:: FiniteMap key elt -> [elt]
 \end{code}
 
-%************************************************************************
-%*									*
+--************************************************************************
+--*									*
 \subsection{The @FiniteMap@ data type, and building of same}
-%*									*
-%************************************************************************
+--*									*
+--************************************************************************
 
 Invariants about @FiniteMap@:
 \begin{enumerate}
@@ -183,11 +183,11 @@ unit (key, elt) = Branch key elt 1 empty empty
 fromList = insertMany empty
 \end{code}
 
-%************************************************************************
-%*									*
+--************************************************************************
+--*									*
 \subsection{Adding to and deleting from @FiniteMaps@}
-%*									*
-%************************************************************************
+--*									*
+--************************************************************************
 
 \begin{code}
 insert fm x = insertC (\ old new -> new) fm x
@@ -241,11 +241,11 @@ deleteBy cmp (Branch key elt size fm_l fm_r) e
 deleteManyBy cmp = foldl (deleteBy cmp)
 \end{code}
 
-%************************************************************************
-%*									*
+--************************************************************************
+--*									*
 \subsection{Combining @FiniteMaps@}
-%*									*
-%************************************************************************
+--*									*
+--************************************************************************
 
 \begin{code}
 plus_C combiner EmptyFM fm2 = fm2
@@ -302,11 +302,11 @@ intersect_C combiner fm1 (Branch split_key elt2 _ left right)
     Just elt1  = maybe_elt1
 \end{code}
 
-%************************************************************************
-%*									*
+--************************************************************************
+--*									*
 \subsection{Mapping, folding, and filtering with @FiniteMaps@}
-%*									*
-%************************************************************************
+--*									*
+--************************************************************************
 
 \begin{code}
 fold k z EmptyFM = z
@@ -326,11 +326,11 @@ filter p (Branch key elt _ fm_l fm_r)
   = glueVBal (filter p fm_l) (filter p fm_r)
 \end{code}
 
-%************************************************************************
-%*									*
+--************************************************************************
+--*									*
 \subsection{Interrogating @FiniteMaps@}
-%*									*
-%************************************************************************
+--*									*
+--************************************************************************
 
 \begin{code}
 --{-# INLINE sizeFM #-}
@@ -345,7 +345,7 @@ isEmpty fm = size fm == 0
 
 type OrderRel a = a -> a -> Ordering
 
-searchBy :: Ord key => OrderRel (key, elt) -> (FiniteMap key elt -> Maybe a) 
+searchBy :: Ord key => OrderRel (key, elt) -> (FiniteMap key elt -> Maybe a)
 	 -> FiniteMap key elt -> key -> Maybe a
 
 searchBy _ _ EmptyFM _ = Nothing
@@ -358,7 +358,7 @@ searchBy cmp f b@(Branch key elt _ fm_l fm_r) key_to_find
 search :: Ord key => (FiniteMap key elt -> Maybe a) -> FiniteMap key elt -> key -> Maybe a
 search = searchBy (\ (k,_) (l, _) -> compare k l)
 
-lookup = search (\ (Branch key elt _ fm_l fm_r) -> Just elt) 
+lookup = search (\ (Branch key elt _ fm_l fm_r) -> Just elt)
 
 predBy, succBy :: Ord key => OrderRel (key,elt) -> FiniteMap key elt -> key -> Maybe (key, elt)
 predBy cmp = searchBy cmp (\ (Branch key elt _ fm_l fm_r) -> maxNode fm_l)
@@ -383,7 +383,7 @@ swap fm k l           = aux (lookup fm k) (lookup fm l)
 	aux Nothing (Just el) = error "wrong swap"
 	aux (Just ek) Nothing = error "wrong swap"
 	aux (Just ek) (Just el) = exchange fm (k,ek) (l,el)
-	exchange EmptyFM _ _ = EmptyFM  
+	exchange EmptyFM _ _ = EmptyFM
 	exchange (Branch k e s ls rs) x@(l,f) y@(m,g)
 	  | k==l      = Branch m g s (exchange ls x y) (exchange rs x y)
 	  | k==m      = Branch l f s (exchange ls x y) (exchange rs x y)
@@ -408,11 +408,11 @@ lookupWithDefault fm deflt key
   = case (lookup fm key) of { Nothing -> deflt; Just elt -> elt }
 \end{code}
 
-%************************************************************************
-%*									*
+--************************************************************************
+--*									*
 \subsection{Listifying @FiniteMaps@}
-%*									*
-%************************************************************************
+--*									*
+--************************************************************************
 
 \begin{code}
 toList fm = fold (\ key elt rest -> (key,elt) : rest) [] fm
@@ -421,17 +421,17 @@ elts fm   = fold (\ key elt rest -> elt : rest)       [] fm
 \end{code}
 
 
-%************************************************************************
-%*									*
+--************************************************************************
+--*									*
 \subsection{The implementation of balancing}
-%*									*
-%************************************************************************
+--*									*
+--************************************************************************
 
-%************************************************************************
-%*									*
+--************************************************************************
+--*									*
 \subsubsection{Basic construction of a @FiniteMap@}
-%*									*
-%************************************************************************
+--*									*
+--************************************************************************
 
 @mkBranch@ simply gets the size component right.  This is the ONLY
 (non-trivial) place the Branch object is built, so the ASSERTion
@@ -492,11 +492,11 @@ mkBranch which key elt fm_l fm_r
     unbox x = x
 \end{code}
 
-%************************************************************************
-%*									*
+--************************************************************************
+--*									*
 \subsubsection{{\em Balanced} construction of a @FiniteMap@}
-%*									*
-%************************************************************************
+--*									*
+--************************************************************************
 
 @mkBalBranch@ rebalances, assuming that the subtrees aren't too far
 out of whack.
@@ -579,11 +579,11 @@ mkVBalBranch key elt fm_l@(Branch key_l elt_l _ fm_ll fm_lr)
     size_r = size fm_r
 \end{code}
 
-%************************************************************************
-%*									*
+--************************************************************************
+--*									*
 \subsubsection{Gluing two trees together}
-%*									*
-%************************************************************************
+--*									*
+--************************************************************************
 
 @glueBal@ assumes its two arguments aren't too far out of whack, just
 like @mkBalBranch@.  But: all keys in first arg are $<$ all keys in
@@ -637,11 +637,11 @@ glueVBal fm_l@(Branch key_l elt_l _ fm_ll fm_lr)
     size_r = size fm_r
 \end{code}
 
-%************************************************************************
-%*									*
+--************************************************************************
+--*									*
 \subsection{Local utilities}
-%*									*
-%************************************************************************
+--*									*
+--************************************************************************
 
 \begin{code}
 splitLT, splitGT :: (Ord key) => FiniteMap key elt -> key -> FiniteMap key elt
@@ -678,11 +678,11 @@ deleteMax (Branch key elt _ fm_l EmptyFM) = fm_l
 deleteMax (Branch key elt _ fm_l    fm_r) = mkBalBranch key elt fm_l (deleteMax fm_r)
 \end{code}
 
-%************************************************************************
-%*									*
+--************************************************************************
+--*									*
 \subsection{Output-ery}
-%*									*
-%************************************************************************
+--*									*
+--************************************************************************
 
 \begin{code}
 

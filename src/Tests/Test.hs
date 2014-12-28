@@ -1,33 +1,26 @@
-%------------------------------------------------------------------------------
-% Copyright (C) 1997, 1998, 2008 Joern Dinkla, www.dinkla.net
-%------------------------------------------------------------------------------
-%
-% see
-%     Joern Dinkla, Geometrische Algorithmen in Haskell, Diploma Thesis,
-%     University of Bonn, Germany, 1998. 
-%
-\subsection{Testdaten}
-\module{Test}
-
-\begin{code}
+--------------------------------------------------------------------------------
+-- Copyright (C) 1997, 1998, 2008 Joern Dinkla, www.dinkla.net
+--------------------------------------------------------------------------------
+--
+-- see
+--     Joern Dinkla, Geometrische Algorithmen in Haskell, Diploma Thesis,
+--     University of Bonn, Germany, 1998.
+--
 module Tests.Test ( module Tests.Test, module Basics.Random ) where
 
-import Point   ( Point1 (..), Point2 (..), Point3 (..), Point4 (..), pointN, 
+import Point   ( Point1 (..), Point2 (..), Point3 (..), Point4 (..), pointN,
 		 PointN (..), Point ((<*>)) )
 import Data.List    ( zip4 )
 import Basics.Random  ( randomInts, randomDoubles )
 import Basics.Utilities ( splitsAt )
-\end{code}
 
-%
-% PSEUDO-ZUF€LLIGE MENGEN VON PUNKTEN
-%
-\subsubsection{Pseudo-zufŠllige Mengen von Punkten}
+--
+-- PSEUDO-ZUFLLIGE MENGEN VON PUNKTEN
+--
 
-\begin{code}
 modulo n = map (\ x -> fromIntegral (x `mod` n))
 scale k = map (\ x -> k*x)
-split d  = splitsAt d 
+split d  = splitsAt d
 
 to1 :: Num a => [[a]] ->  [Point1 a]
 to1 = map (\ [x] -> Point1 x)
@@ -44,10 +37,10 @@ to4 = map (\ [w,x,y,z] -> Point4 (w,x,y,z))
 toN :: Num a => [[a]] ->  [PointN a]
 toN = map pointN
 
-ips1 k n = take n . to1 . split 1 . modulo k 
-ips2 k n = take n . to2 . split 2 . modulo k 
-ips3 k n = take n . to3 . split 3 . modulo k 
-ips4 k n = take n . to4 . split 4 . modulo k 
+ips1 k n = take n . to1 . split 1 . modulo k
+ips2 k n = take n . to2 . split 2 . modulo k
+ips3 k n = take n . to3 . split 3 . modulo k
+ips4 k n = take n . to4 . split 4 . modulo k
 ipsN d k n = take n . toN . split d . modulo k
 
 dps1 k n = take n . to1 . split 1 . scale k
@@ -75,4 +68,3 @@ pointsInUnitCircle            = (zipWith point rands rands2)
   where rands                 = map (*(2*pi)) (randomDoubles 511 137)
         rands2                = randomDoubles 247 1031
         point phi d           = Point2 (d * cos phi, d * sin phi)
-\end{code}
