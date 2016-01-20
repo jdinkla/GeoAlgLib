@@ -1,4 +1,3 @@
-\begin{code}
 {-
    This module implements a (good) random number generator.
 
@@ -31,11 +30,11 @@ rands s1 s2 = z' : rands s1'' s2''
 		k    = s1 `quot` 53668
 		s1'  = 40014 * (s1 - k * 53668) - k * 12211
 		s1'' = if s1' < 0 then s1' + 2147483563 else s1'
-    
+
 		k'   = s2 `quot` 52774
 		s2'  = 40692 * (s2 - k' * 52774) - k' * 3791
 		s2'' = if s2' < 0 then s2' + 2147483399 else s2'
-	
+
 -- Same values for s1 and s2 as above, generates an infinite
 -- list of Doubles uniformly distibuted in (0,1).
 randomDoubles :: Int -> Int -> [Double]
@@ -58,4 +57,3 @@ boxMuller (x1:x2:xs) | r <= 1    = x1*m : x2*m : rest
 				   where r = x1*x1 + x2*x2
 				         m = sqrt(-2*log r/r)
 				         rest = boxMuller xs
-\end{code}
